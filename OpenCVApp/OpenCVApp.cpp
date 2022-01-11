@@ -10,7 +10,7 @@
 
 int main()
 {
-    Painter painter;
+    
 
 
     cv::waitKey(0);

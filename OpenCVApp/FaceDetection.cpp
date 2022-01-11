@@ -12,7 +12,7 @@ FaceDetection::FaceDetection()
 {
 
     //std::string path = "Resources/DSC_0400.jpg";
-    //std::string path = "Resources/frank.jpg";
+   
     //std::string path = "Resources/DSC_0965.jpg";
     std::string path = "Resources/img040.jpg";
    
@@ -21,7 +21,7 @@ FaceDetection::FaceDetection()
     cv::Mat img = cv::imread(path);
 
     //camera
-    cv::VideoCapture cap(0);
+    /*cv::VideoCapture cap(0);
     cv::Mat imgCam;
     std::vector<cv::Rect> faces;
     if (true)
@@ -45,13 +45,13 @@ FaceDetection::FaceDetection()
                     /*for (auto value : faces)
                     {
                         cv::rectangle(imgCam, value.tl(), value.br(), cv::Scalar(255, 0, 255), 2);
-                    }*/
+                    }#1#
                 }
                 cv::imshow("image", imgCam);
                 cv::waitKey(1);
             }
         }
-    }
+    }*/
 
 
     cv::CascadeClassifier faceCascade;
