@@ -14,18 +14,18 @@ Painter::Painter()
 
     while (true)
     {
-
         cap.read(img);
         cv::flip(img, flipImg, 1);
+       // cv::flip(flipImg, flipImg, 0);
         findColor(flipImg);
         if (img.empty()) { break; }
-        else {
+        else
+        {
+            drawOnCanvas(drawPoints, colorValues, flipImg);
             cv::imshow("image", flipImg);
             cv::waitKey(1);
         }
-
     }
-    
 }
 
 void Painter::findColor()
@@ -83,5 +83,56 @@ void Painter::findColor(cv::Mat img)
         cv::Scalar upper(paintColors[i][3], paintColors[i][4], paintColors[i][5]);
         cv::inRange(imgHSV, lower, upper, mask);
         imshow(to_string(i), mask);
+        cv::Point drawPoint = getContours(mask, img, 1000);
+        if (drawPoint.x != 0 && drawPoint.y != 0)
+        {
+            drawPoints.push_back({drawPoint.x, drawPoint.y, i});
+        }
+    }
+}
+
+cv::Point Painter::getContours(cv::Mat dilImg, cv::Mat img, int areaIgnored)
+{
+    std::vector<std::vector<cv::Point>> contours;
+
+
+    std::vector<cv::Vec4i> hierarchy;
+    //find the contours in the image(dilImg) and draw on image(img)
+    cv::findContours(dilImg, contours, hierarchy, cv::RETR_EXTERNAL, cv::CHAIN_APPROX_SIMPLE);
+    cv::drawContours(img, contours, -1, cv::Scalar(255, 0, 255), 2);
+    std::vector<std::vector<cv::Point>> contoursPoly(contours.size());
+    std::vector<cv::Rect> boundRectangle(contours.size());
+
+    std::string objectType;
+
+    cv::Point drawPoint(0, 0);
+
+    //reduce the noise, draw only if area of contour is above given threshold
+    for (int i = 0; i < contours.size(); i++)
+    {
+        int area = cv::contourArea(contours[i]);
+        if (area > areaIgnored)
+        {
+            float perimeter = cv::arcLength(contours[i], true);
+            cv::approxPolyDP(contours[i], contoursPoly[i], 0.02 * perimeter, true);
+
+
+            //rectangle that will be drawn around the object
+            boundRectangle[i] = cv::boundingRect(contoursPoly[i]);
+            drawPoint.x = boundRectangle[i].x + boundRectangle[i].width / 2;
+            drawPoint.y = boundRectangle[i].y;
+
+            cv::drawContours(img, contoursPoly, i, cv::Scalar(255, 0, 255), 2);
+        }
+    }
+
+    return drawPoint;
+}
+
+void Painter::drawOnCanvas(std::vector<std::vector<int>> drawPoints, std::vector<cv::Scalar> colorValues, cv::Mat img)
+{
+    for (int i = 0; i < drawPoints.size(); i++)
+    {
+        cv::circle(img, (cv::Point(drawPoints[i][0],drawPoints[i][1])), 10, colorValues[drawPoints[i][2]], cv::FILLED);
     }
 }
