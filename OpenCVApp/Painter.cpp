@@ -16,7 +16,7 @@ Painter::Painter()
     {
         cap.read(img);
         cv::flip(img, flipImg, 1);
-       // cv::flip(flipImg, flipImg, 0);
+        // cv::flip(flipImg, flipImg, 0);
         findColor(flipImg);
         if (img.empty()) { break; }
         else
@@ -133,6 +133,6 @@ void Painter::drawOnCanvas(std::vector<std::vector<int>> drawPoints, std::vector
 {
     for (int i = 0; i < drawPoints.size(); i++)
     {
-        cv::circle(img, (cv::Point(drawPoints[i][0],drawPoints[i][1])), 10, colorValues[drawPoints[i][2]], cv::FILLED);
+        cv::circle(img, (cv::Point(drawPoints[i][0], drawPoints[i][1])), 10, colorValues[drawPoints[i][2]], cv::FILLED);
     }
 }

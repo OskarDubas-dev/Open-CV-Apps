@@ -10,13 +10,10 @@
 
 FaceDetection::FaceDetection()
 {
-
     //std::string path = "Resources/DSC_0400.jpg";
-   
     //std::string path = "Resources/DSC_0965.jpg";
     std::string path = "Resources/img040.jpg";
-   
-    
+
 
     cv::Mat img = cv::imread(path);
 
