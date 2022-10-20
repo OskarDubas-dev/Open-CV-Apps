@@ -29,11 +29,22 @@ while True:
         first_frame = gray
         continue
     
+
+
     thr = int(cv2.getTrackbarPos("Threshold",trackbarWindow))
 
     delta_frame = cv2.absdiff(gray, first_frame)
     delta_threshold = cv2.threshold(delta_frame,thr,255,cv2.THRESH_BINARY)[1]
 
+
+    (cnts,_) = cv2.findContours(delta_threshold.copy(),cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)    
+
+    for contour in cnts:
+        if cv2.contourArea(contour) < 1000:
+            continue
+        (x,y,w,h) = cv2.boundingRect(contour)
+        cv2.rectangle(frame, (x,y), (x+h, y+h), (0,255,0), 3)
+        
     cv2.imshow("video", gray)
     cv2.imshow("delta", delta_frame)
     cv2.imshow("normal", frame)
