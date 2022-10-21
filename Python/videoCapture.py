@@ -8,6 +8,7 @@ from cv2 import resizeWindow
 first_frame = None
 video = cv2.VideoCapture(0)
 thr = 30
+status = 0
 
 trackbarWindow = "threshWindow"
 cv2.namedWindow(trackbarWindow, WINDOW_AUTOSIZE)
@@ -42,6 +43,7 @@ while True:
     for contour in cnts:
         if cv2.contourArea(contour) < 1000:
             continue
+        status = 1
         (x,y,w,h) = cv2.boundingRect(contour)
         cv2.rectangle(frame, (x,y), (x+h, y+h), (0,255,0), 3)
         
