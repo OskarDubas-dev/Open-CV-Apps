@@ -1,8 +1,8 @@
 import cv2, time, pandas
 
-from cv2 import WINDOW_AUTOSIZE
-from cv2 import WINDOW_NORMAL
-from cv2 import resizeWindow
+#from cv2 import WINDOW_AUTOSIZE
+#from cv2 import WINDOW_NORMAL
+#from cv2 import resizeWindow
 
 from datetime import datetime
 
@@ -13,26 +13,15 @@ first_frame = None
 video = cv2.VideoCapture(0)
 thr = 30
 
-
-
 times = []
 df = pandas.DataFrame(columns = ["Start", "End"])
 
 
-trackbarWindow = "threshWindow"
-#cv2.namedWindow(trackbarWindow, WINDOW_AUTOSIZE)
-
-def on_trackbar(val):
-    pass
-
-#trackbars = cv2.namedWindow("Trackbars", (640,200))
-#trackbars = cv2.createTrackbar("threshold", thr, 0)
-#resizeWindow(trackbarWindow, 640,480)
-#cv2.createTrackbar("Threshold", trackbarWindow, 30, 100, on_trackbar)
 
 
 status = 0
 switch = 0
+
 
 
 while True:
